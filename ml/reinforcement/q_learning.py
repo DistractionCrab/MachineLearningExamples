@@ -19,6 +19,7 @@ class QLearning(rl.RLModel):
 	def _train_epoch(self, crit, opt):
 		self.model.env.reset()
 		self.model.env.seed(random.randint(0, sys.maxsize))
+		rewards = []
 
 		for _ in range(self.iterations):
 			if self.model.env.done:
@@ -26,6 +27,7 @@ class QLearning(rl.RLModel):
 				self.model.env.seed(random.randint(0, sys.maxsize))
 			qvalue = self.model(self.model.env.obsv	)			
 			(r, done) = self.model.env.step(qvalue.argmax().item())
+			rewards.append(r)
 
 			qnext = self.model(self.model.env.obsv)
 
@@ -33,6 +35,8 @@ class QLearning(rl.RLModel):
 			opt.zero_grad()
 			loss.backward()
 			opt.step()
+			
+		return torch.FloatTensor(rewards)
 
 	@property
 	def iterations(self):

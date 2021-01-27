@@ -126,4 +126,4 @@ dmypy.json
 
 
 # Data imported by PyTorch
-*/.data
+.data/**
