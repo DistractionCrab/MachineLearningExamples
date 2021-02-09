@@ -76,6 +76,11 @@ class PolicyGradients(rl.RLModel):
 	@property
 	def model(self):
 		return self.__model
+
+	@property
+	def save_path(self):
+		return 'reinforcement/policy_gradients'
+	
 	
 
 
@@ -112,5 +117,10 @@ class MsPacmanModel(torch.nn.Module):
 
 
 def main(args):
-	if len(args) == 0:
-		PolicyGradients(MsPacmanModel()).train()
+	if 'mspacman' in args:
+		if 'train' in args:
+			PolicyGradients(MsPacmanModel()).train()
+		elif 'eval' in args:
+			pass
+		else:
+			print('Unknown or no command given.')
